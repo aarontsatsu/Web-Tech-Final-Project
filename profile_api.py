@@ -37,3 +37,32 @@ def create_user():
     record['id'] = user_data.id
 
     return jsonify(record), 201
+
+# @app.route('/voters/<string:voter_id>', methods=['PATCH'])
+def edit_user(user_id):
+    user_data = db.collection('users').document(user_id)
+    user_doc = user_data.get()
+    if not user_doc.exists:
+        return jsonify({"error":f"User with ID {user_id} not found"}), 404
+
+    user_info = user_doc.to_dict()
+    if 'name' in request.json:
+        user_info['name'] = request.json['name']
+
+    
+    if 'email' in request.json:
+        updated_email = request.json['email']
+        users_query = db.collection('users').where('email', '==', updated_email).get()
+
+
+        for u in users_query:
+            if u.id != user_id:
+                return jsonify({"error":f"Email {updated_email} already exists"}), 400
+            user_info['email'] = updated_email
+            
+            
+    # if 'class' in request.json:
+    #     voter_info['class'] = request.json['class']
+    
+    user_data.set(user_info)
+    return jsonify(user_info), 200
