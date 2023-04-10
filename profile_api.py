@@ -49,20 +49,32 @@ def edit_user(user_id):
     if 'name' in request.json:
         user_info['name'] = request.json['name']
 
-    
     if 'email' in request.json:
         updated_email = request.json['email']
         users_query = db.collection('users').where('email', '==', updated_email).get()
-
-
         for u in users_query:
             if u.id != user_id:
                 return jsonify({"error":f"Email {updated_email} already exists"}), 400
-            user_info['email'] = updated_email
+            user_info['email'] = updated_email     
             
-            
-    # if 'class' in request.json:
-    #     voter_info['class'] = request.json['class']
+    if 'class' in request.json:
+        user_info['class'] = request.json['class']
+    
+    if 'best_food' in request.json:
+        user_info['best_food'] = request.json['best_food']
+    
+    if 'best_movie' in request.json:
+        user_info['best_movie'] = request.json['best_movie']
+    
+    if 'major' in request.json:
+        user_info['major'] = request.json['major']
+    
+    if 'on-campus' in request.json:
+        user_info['on-campus'] = request.json['on-campus']
+    
+    if 'student_id' in request.json or 'class' in request.json:
+        return jsonify({"message":"Sorry, you cannot alter your Student ID or Year Group! (contact admin support)"}), 403
+    
     
     user_data.set(user_info)
     return jsonify(user_info), 200
