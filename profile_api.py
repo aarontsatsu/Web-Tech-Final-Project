@@ -66,3 +66,15 @@ def edit_user(user_id):
     
     user_data.set(user_info)
     return jsonify(user_info), 200
+
+# @app.route('/users/<string:user_id>', methods=['DELETE'])
+def delete_user(user_id):
+    user_data = db.collection('users').document(user_id)
+    user_doc = user_data.get()
+
+    if not user_doc.exists:
+        return jsonify({"error":f"User with ID {user_id} not found"}), 404
+    
+    user_data.delete()
+    
+    return jsonify({"message":f"User {user_id} deleted successfully"}), 204
