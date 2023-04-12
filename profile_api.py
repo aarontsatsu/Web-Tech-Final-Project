@@ -36,7 +36,7 @@ def get_user_byID(user_id):
 
     if user.exists:
         user_dict = user.to_dict()
-        user_dict['id'] = user.id
+        user_dict['student_id'] = user.student_id
         return jsonify(user_dict), 200
     return jsonify({'message': 'User ID not found'}), 404
 
@@ -45,15 +45,15 @@ def create_user():
     record = json.loads(request.data)
 
     users_data = db.collection('users')
-    query_check = users_data.where('id', '==', record['id'])
+    query_check = users_data.where('student_id', '==', record['student_id'])
     users = query_check.stream()
 
     for user in users:
-        return jsonify({'message':f'User with id {record["id"]} already exists.'}), 400
+        return jsonify({'message':f'User with id {record["student_id"]} already exists.'}), 400
     
     user_data = users_data.document()
     user_data.set(record)
-    record['id'] = user_data.id
+    record['student_id'] = user_data.student_id
 
     return jsonify(record), 201
 
@@ -72,7 +72,7 @@ def edit_user(user_id):
         updated_email = request.json['email']
         users_query = db.collection('users').where('email', '==', updated_email).get()
         for u in users_query:
-            if u.id != user_id:
+            if u.student_id != user_id:
                 return jsonify({"error":f"Email {updated_email} already exists"}), 400
             user_info['email'] = updated_email     
             
@@ -109,3 +109,47 @@ def delete_user(user_id):
     user_data.delete()
     
     return jsonify({"message":f"User {user_id} deleted successfully"}), 204
+
+
+"""
+    Posts Resource
+"""
+# @app.route('/posts/<string:user_id>', methods=['GET'])
+def get_post_byID(post_id):
+    posts_data = db.collection('posts').document(post_id)
+    post = posts_data.get()
+
+    if post.exists:
+        post_dict = post.to_dict()
+        post_dict['postID'] = post.postID
+        return jsonify(post_dict), 200
+    return jsonify({'message': 'Post not found'}), 404
+
+# @app.route('/posts', methods=['POST'])
+def create_post():
+    record = json.loads(request.data)
+
+    posts_data = db.collection('posts')
+    query_check = posts_data.where('postID', '==', record['postID'])
+    posts = query_check.stream()
+
+    for post in posts:
+        return jsonify({'message':f'Post with id {record["postID"]} already exists.'}), 400
+    
+    post_data = posts_data.document()
+    post_data.set(record)
+    record['postID'] = post_data.postID
+
+    return jsonify(record), 201
+
+# @app.route('/posts/<string:post_id>', methods=['DELETE'])
+def delete_user(post_id):
+    post_data = db.collection('posts').document(post_id)
+    post_doc = post_data.get()
+
+    if not post_doc.exists:
+        return jsonify({"error":f"User with ID {post_id} not found"}), 404
+    
+    post_data.delete()
+    
+    return jsonify({"message":f"Post deleted successfully"}), 204
