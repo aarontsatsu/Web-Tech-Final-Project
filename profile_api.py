@@ -1,6 +1,9 @@
-import json, os.path, functions_framework
+import json, os.path, functions_framework, smtplib
 from flask import Flask, request, jsonify
 from google.cloud import firestore
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
 
 #initializing the firestore client with the project ID
 db = firestore.Client(project="ashesi-social-connect")
@@ -136,6 +139,47 @@ def get_post_byID(post_id):
         return jsonify(post_dict), 200
     return jsonify({'message': 'Post not found'}), 404
 
+#email notification script
+def send_email(to_addresses):
+    # Set up the email message
+    message = MIMEMultipart()
+    message['To'] = ", ".join(to_addresses)
+    message['Subject'] = "New Post on AshX Connect"
+    body = """
+    Hello,
+    
+    There is a new post on AshX Connect by ...
+    Check it out.
+
+    Best,
+    AshX Connect
+    (do not reply)
+    
+    """
+    message.attach(MIMEText(body, 'plain'))
+
+    # Connect to the SMTP server
+    smtp_server = smtplib.SMTP('smtp.gmail.com', 587)
+    smtp_server.ehlo()
+    smtp_server.starttls()
+    smtp_server.login('your_email@gmail.com', 'your_email_password')
+
+    # Send the email
+    smtp_server.sendmail('aarontmkl@gmail.com', to_addresses, message.as_string())
+    smtp_server.quit()
+
+#get all email addresses in the database
+def get_emails():
+    emails = []
+    users_ref = db.collection('users')
+    docs = users_ref.stream()
+    for doc in docs:
+        data = doc.to_dict()
+        if 'email' in data:
+            emails.append(data['email'])
+
+    return emails
+
 # @app.route('/posts', methods=['POST'])
 def create_post():
     record = json.loads(request.data)
@@ -150,6 +194,9 @@ def create_post():
     post_data = posts_data.document()
     post_data.set(record)
     record['postID'] = post_data.postID
+    
+    #email notification to all users
+    send_email(get_emails())
 
     return jsonify(record), 201
 
@@ -164,3 +211,6 @@ def delete_post(post_id):
     post_data.delete()
     
     return jsonify({"message":f"Post deleted successfully"}), 204
+
+if __name__ == '__main__':
+    app.run(debug=True)
