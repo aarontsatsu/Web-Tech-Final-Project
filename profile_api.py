@@ -21,6 +21,17 @@ def entry_point(request):
         elif request.method == 'DELETE':
             get_path = os.path.split(request.path)[-1]
             return delete_user(get_path)
+    
+    elif 'posts' in request.path:
+        if request.method == 'GET':
+            get_path = os.path.split(request.path)[-1]
+            return get_post_byID(get_path)
+        elif request.method == 'POST':
+            return create_post()
+        elif request.method == 'DELETE':
+            get_path = os.path.split(request.path)[-1]
+            return delete_post(get_path)
+    
     else:
         return ({"error":"endpoint not found"}), 404
     
@@ -143,7 +154,7 @@ def create_post():
     return jsonify(record), 201
 
 # @app.route('/posts/<string:post_id>', methods=['DELETE'])
-def delete_user(post_id):
+def delete_post(post_id):
     post_data = db.collection('posts').document(post_id)
     post_doc = post_data.get()
 
