@@ -7,6 +7,25 @@ db = firestore.Client(project="ashesi-social-connect")
 
 app = Flask(__name__)
 
+@functions_framework.http
+def entry_point(request):
+    if 'users' in request.path:
+        if request.method == 'GET':
+            get_path = os.path.split(request.path)[-1]
+            return get_user_byID(get_path)
+        elif request.method == 'POST':
+            return create_user()
+        elif request.method == 'PATCH':
+            get_path = os.path.split(request.path)[-1]
+            return edit_user(get_path)
+        elif request.method == 'DELETE':
+            get_path = os.path.split(request.path)[-1]
+            return delete_user(get_path)
+    else:
+        return ({"error":"endpoint not found"}), 404
+    
+
+
 """
     Users Resource
 """
