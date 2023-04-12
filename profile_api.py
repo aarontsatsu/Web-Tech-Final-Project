@@ -162,7 +162,7 @@ def send_email(to_addresses):
     smtp_server = smtplib.SMTP('smtp.gmail.com', 587)
     smtp_server.ehlo()
     smtp_server.starttls()
-    smtp_server.login('your_email@gmail.com', 'your_email_password')
+    smtp_server.login('ashxconnect@gmail.com', 'ashx12345')
 
     # Send the email
     smtp_server.sendmail('aarontmkl@gmail.com', to_addresses, message.as_string())
