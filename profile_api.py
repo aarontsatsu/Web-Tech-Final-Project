@@ -50,24 +50,29 @@ def get_user_byID(user_id):
 
     if user.exists:
         user_dict = user.to_dict()
-        user_dict['student_id'] = user.student_id
+        user_dict['student_id'] = user_id
         return jsonify(user_dict), 200
+
     return jsonify({'message': 'User ID not found'}), 404
 
 # @app.route('/users', methods=['POST'])
 def create_user():
-    record = json.loads(request.data)
+    record = request.get_json()
 
     users_data = db.collection('users')
-    query_check = users_data.where('student_id', '==', record['student_id'])
+    user_id = record.get('student_id')
+
+    # Check if a user with the same student ID already exists
+    query_check = users_data.where('student_id', '==', user_id)
     users = query_check.stream()
 
     for user in users:
-        return jsonify({'message':f'User with id {record["student_id"]} already exists.'}), 400
+        return jsonify({'message': f'User with id {user_id} already exists.'}), 400
     
-    user_data = users_data.document()
+    user_data = users_data.document(str(user_id))
     user_data.set(record)
-    record['student_id'] = user_data.student_id
+
+    record['student_id'] = user_data.id
 
     return jsonify(record), 201
 
