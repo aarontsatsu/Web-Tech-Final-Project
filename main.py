@@ -11,7 +11,7 @@ db = firestore.Client(project="ashesi-social-connect")
 app = Flask(__name__)
 
 @functions_framework.http
-def entry_point(request):
+def main(request):
     if 'users' in request.path:
         if request.method == 'GET':
             get_path = os.path.split(request.path)[-1]
