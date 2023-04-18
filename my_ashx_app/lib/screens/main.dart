@@ -1,45 +1,21 @@
-import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:my_ashx_app/screens/signup.dart';
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => MyAppState(),
-      child: MaterialApp(
-        title: 'AshX Social Connect',
-        theme: ThemeData(
-          useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
-        ),
-        home: MyHomePage(),
+    return MaterialApp(
+      title: 'My Ashx App',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
       ),
-    );
-  }
-}
-
-class MyAppState extends ChangeNotifier {
-  var current = WordPair.random();
-}
-
-class MyHomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    var appState = context.watch<MyAppState>();
-
-    return Scaffold(
-      body: Column(
-        children: [
-          Text('A random idea:'),
-          Text(appState.current.asLowerCase),
-        ],
+      home: Material(
+        child: StudentForm(),
       ),
     );
   }
