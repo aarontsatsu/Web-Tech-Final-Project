@@ -30,7 +30,8 @@ class _StudentFormState extends State<StudentForm>
             child: Container(
               width: MediaQuery.of(context).size.width * .5,
               height: MediaQuery.of(context).size.height * .9,
-              child: Column(
+              child:SingleChildScrollView(
+                child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children:[
                   // logo
@@ -137,7 +138,7 @@ class _StudentFormState extends State<StudentForm>
                   const SizedBox(height: 10),
                   // residence text field
                   CheckboxListTile(
-                    title: const Text('Residence'),
+                    title: const Text('On-Campus Residence (Uncheck if otherwise)'),
                     value: hasResidence,
                     onChanged: (bool? value) {
                       setState(() {
@@ -195,6 +196,7 @@ class _StudentFormState extends State<StudentForm>
                   )
                   
                 ]
+              )
               )
             ),
           ),
