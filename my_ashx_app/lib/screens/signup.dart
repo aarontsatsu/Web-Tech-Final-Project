@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class StudentForm extends StatefulWidget {
   const StudentForm({Key? key}) : super(key : key);
@@ -91,7 +92,7 @@ class _StudentFormState extends State<StudentForm>
                   // dob text field
                   TextField(
                     onChanged: (value){
-                      dob = DateTime.parse(value);
+                      dob = DateFormat('dd-MM-yyyy').parse(value);
                     },
                     style: TextStyle(fontSize: 15, color: Colors.black),
                     decoration: const InputDecoration(
@@ -184,7 +185,7 @@ class _StudentFormState extends State<StudentForm>
                   // button
                   ElevatedButton(
                     onPressed: (){
-
+                      Navigator.pushNamed(context, '/login');
                     },
                     style: ButtonStyle(
                       padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 100, vertical: 20)),

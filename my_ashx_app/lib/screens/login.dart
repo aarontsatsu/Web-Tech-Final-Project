@@ -30,6 +30,7 @@ class _LoginFormState extends State<LoginForm>
                     "images/black-student-png.jpg"
                   ),
 
+                  const SizedBox(height: 10),
                   // email text field
                   TextField(
                     onChanged: (value){
@@ -44,6 +45,8 @@ class _LoginFormState extends State<LoginForm>
                       icon: Icon(Icons.email, color:Colors.black,)
                     )
                   ),
+
+                  const SizedBox(height: 10),
 
                   // password text field
                   TextField(
@@ -65,7 +68,7 @@ class _LoginFormState extends State<LoginForm>
                   // button
                   ElevatedButton(
                     onPressed: (){
-
+                      Navigator.pushNamed(context, '/post');
                     },
                     style: ButtonStyle(
                       padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 100, vertical: 20)),
