@@ -9,7 +9,6 @@ class StudentForm extends StatefulWidget {
 
 class _StudentFormState extends State<StudentForm> 
 {
-  // final _formKey = GlobalKey<FormState>();
   String studentId = "";
   String name = "";
   String email = "";
@@ -20,20 +19,6 @@ class _StudentFormState extends State<StudentForm>
   String bestFood = "";
   String bestMovie = "";
 
-  // void _submitForm() {
-  //   if (_formKey.currentState?.validate() ?? false) {
-  //     // Submit the form
-  //     // You can handle the form submission logic here
-  //     print('Student ID: $_studentId');
-  //     print('Name: $_name');
-  //     print('Email: $_email');
-  //     print('Date of Birth: $_dob');
-  //     print('Year Group: $_yearGroup');
-  //     print('Major: $_major');
-  //     print('Has Residence: $_hasResidence');
-  //     print('Best Food: $_bestFood');
-  //     print('Best Movie: $_bestMovie');
-  //   }
 
   @override
   Widget build(BuildContext context){
@@ -44,6 +29,7 @@ class _StudentFormState extends State<StudentForm>
           Center(
             child: Container(
               width: MediaQuery.of(context).size.width * .5,
+              height: MediaQuery.of(context).size.height * .9,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children:[
@@ -81,6 +67,115 @@ class _StudentFormState extends State<StudentForm>
                       hintText: "Name",
                       hintStyle: TextStyle(color: Colors.grey),
                       icon: Icon(Icons.person_4, color:Colors.black,)
+                    )
+                  ),
+
+                  const SizedBox(height: 10),
+                  // email text field
+                  TextField(
+                    onChanged: (value){
+                      email = value;
+                    },
+                    style: TextStyle(fontSize: 15, color: Colors.black),
+                    decoration: const InputDecoration(
+                      enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black, width: 2)),
+                      focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black, width: 2)),
+                      hintText: "Email",
+                      hintStyle: TextStyle(color: Colors.grey),
+                      icon: Icon(Icons.email, color:Colors.black,)
+                    )
+                  ),
+
+                  const SizedBox(height: 10),
+                  // dob text field
+                  TextField(
+                    onChanged: (value){
+                      dob = DateTime.parse(value);
+                    },
+                    style: TextStyle(fontSize: 15, color: Colors.black),
+                    decoration: const InputDecoration(
+                      enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black, width: 2)),
+                      focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black, width: 2)),
+                      hintText: "Date of Birth",
+                      hintStyle: TextStyle(color: Colors.grey),
+                      icon: Icon(Icons.calendar_month, color:Colors.black,)
+                    )
+                  ),
+
+                  const SizedBox(height: 10),
+                  // year text field
+                  TextField(
+                    onChanged: (value){
+                      yearGroup = int.parse(value);
+                    },
+                    style: TextStyle(fontSize: 15, color: Colors.black),
+                    decoration: const InputDecoration(
+                      enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black, width: 2)),
+                      focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black, width: 2)),
+                      hintText: "Year Group",
+                      hintStyle: TextStyle(color: Colors.grey),
+                      icon: Icon(Icons.class_, color:Colors.black,)
+                    )
+                  ),
+
+                  const SizedBox(height: 10),
+                  // major text field
+                  TextField(
+                    onChanged: (value){
+                      major = value;
+                    },
+                    style: TextStyle(fontSize: 15, color: Colors.black),
+                    decoration: const InputDecoration(
+                      enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black, width: 2)),
+                      focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black, width: 2)),
+                      hintText: "Major",
+                      hintStyle: TextStyle(color: Colors.grey),
+                      icon: Icon(Icons.class_, color:Colors.black,)
+                    )
+                  ),
+
+                  const SizedBox(height: 10),
+                  // residence text field
+                  CheckboxListTile(
+                    title: const Text('Residence'),
+                    value: hasResidence,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        hasResidence = value ?? false;
+                      });
+                    },
+                    controlAffinity: ListTileControlAffinity.leading,
+                  ),
+
+                  const SizedBox(height: 10),
+                  // food text field
+                  TextField(
+                    onChanged: (value){
+                      bestFood = value;
+                    },
+                    style: TextStyle(fontSize: 15, color: Colors.black),
+                    decoration: const InputDecoration(
+                      enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black, width: 2)),
+                      focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black, width: 2)),
+                      hintText: "Best Food",
+                      hintStyle: TextStyle(color: Colors.grey),
+                      icon: Icon(Icons.food_bank, color:Colors.black,)
+                    )
+                  ),
+
+                  const SizedBox(height: 10),
+                  // movie text field
+                  TextField(
+                    onChanged: (value){
+                      bestMovie = value;
+                    },
+                    style: TextStyle(fontSize: 15, color: Colors.black),
+                    decoration: const InputDecoration(
+                      enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black, width: 2)),
+                      focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black, width: 2)),
+                      hintText: "Best Movie",
+                      hintStyle: TextStyle(color: Colors.grey),
+                      icon: Icon(Icons.computer, color:Colors.black,)
                     )
                   ),
 
