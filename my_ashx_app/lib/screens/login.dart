@@ -21,6 +21,7 @@ class _LoginFormState extends State<LoginForm>
           Center(
             child: Container(
               width: MediaQuery.of(context).size.width * .5,
+              height: MediaQuery.of(context).size.height * .9,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children:[
