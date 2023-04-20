@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_ashx_app/screens/signup.dart';
 import 'package:my_ashx_app/screens/login.dart';
 import 'package:my_ashx_app/screens/posts.dart';
+import 'package:my_ashx_app/screens/edit_profile.dart';
 
 void main() {
   runApp(MyApp());
@@ -22,11 +23,12 @@ class MyApp extends StatelessWidget {
       home: Material(
         child: StudentForm(),
       ),
-      initialRoute: '/signup', // Initial route
+      initialRoute: '/editProfile', // Initial route
       routes: {
         '/login': (context) => LoginForm(),
         '/post': (context) => PostForm(),
         '/signup': (context) => StudentForm(),
+        '/editProfile' : (context) => EditProfile()
       },
     );
   }

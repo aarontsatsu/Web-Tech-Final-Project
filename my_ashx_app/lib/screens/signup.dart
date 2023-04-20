@@ -24,6 +24,10 @@ class _StudentFormState extends State<StudentForm>
   @override
   Widget build(BuildContext context){
     return Scaffold(
+      appBar: AppBar(
+        title: Text("AshX Social Connect"),
+        backgroundColor: Color.fromARGB(255, 99, 16, 10),
+      ),
       backgroundColor: Colors.white,
       body: Stack(
         children: [

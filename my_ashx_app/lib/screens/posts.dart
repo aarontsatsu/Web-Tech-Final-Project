@@ -15,6 +15,10 @@ class _PostFormState extends State<PostForm>
   @override
   Widget build(BuildContext context){
     return Scaffold(
+      appBar: AppBar(
+        title: Text("AshX Social Connect"),
+        backgroundColor: Color.fromARGB(255, 99, 16, 10),
+      ),
       backgroundColor: Colors.white,
       body: Stack(
         children: [
