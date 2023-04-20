@@ -78,8 +78,8 @@ class _PostFormState extends State<PostForm>
                     },
                     style: ButtonStyle(
                       padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 100, vertical: 20)),
-                      backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-                      foregroundColor: MaterialStateProperty.all<Color>(Colors.red),
+                      backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 99, 16, 10)),
+                      foregroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 99, 16, 10)),
                     ),
                     child: const Text("Create Post",
                     style: TextStyle(color: Colors.black, letterSpacing: 2, fontSize: 15,))
