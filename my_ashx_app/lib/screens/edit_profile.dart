@@ -14,7 +14,7 @@ class _EditProfileState extends State<EditProfile>
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
-        title: Text("AshX Social Connect"),
+        title: Text("AshX Social Connect: Edit Profile"),
         backgroundColor: Color.fromARGB(255, 99, 16, 10),
       ),
       backgroundColor: Colors.white,
@@ -54,15 +54,15 @@ class _EditProfileState extends State<EditProfile>
                 ),
               ),
               SizedBox(height: 30),
-              buildTextField("Student ID", "49622024"),
-              buildTextField("Name", "Aaron"),
-              buildTextField("Email", "aarontmkl@gmail.com"),
-              buildTextField("DOB", "05/07/2001"),
-              buildTextField("Year Group", "2024"),
-              buildTextField("Major", "Computer Science"),
-              buildTextField("Residence", "On-Campus"),
-              buildTextField("Best Food", "Jollof"),
-              buildTextField("Best Movie", "American Gangstar"),
+              buildTextField("Student ID", ""),
+              buildTextField("Name", ""),
+              buildTextField("Email", ""),
+              buildTextField("DOB", ""),
+              buildTextField("Year Group", ""),
+              buildTextField("Major", ""),
+              buildTextField("Residence", ""),
+              buildTextField("Best Food", ""),
+              buildTextField("Best Movie", ""),
               SizedBox(height: 30),
 
               Row(
@@ -94,8 +94,8 @@ class _EditProfileState extends State<EditProfile>
                     )),
                   )
                 ],
-              )
-
+              ),
+              SizedBox(height: 30),
             ],
           ),
         ),

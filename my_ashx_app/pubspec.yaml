@@ -9,6 +9,7 @@ environment:
   sdk: '>=2.19.4 <4.0.0'
 
 dependencies:
+  http: ^0.13.5
   flutter_datetime_picker: ^1.5.1
   flutter:
     sdk: flutter
