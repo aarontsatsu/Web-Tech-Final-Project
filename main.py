@@ -21,9 +21,9 @@ def main(request):
         elif request.method == 'PATCH':
             get_path = os.path.split(request.path)[-1]
             return edit_user(get_path)
-        elif request.method == 'DELETE':
-            get_path = os.path.split(request.path)[-1]
-            return delete_user(get_path)
+        # elif request.method == 'DELETE':
+        #     get_path = os.path.split(request.path)[-1]
+        #     return delete_user(get_path)
     
     elif 'posts' in request.path:
         if request.method == 'GET':
@@ -31,9 +31,9 @@ def main(request):
             return get_post_byID(get_path)
         elif request.method == 'POST':
             return create_post()
-        elif request.method == 'DELETE':
-            get_path = os.path.split(request.path)[-1]
-            return delete_post(get_path)
+        # elif request.method == 'DELETE':
+        #     get_path = os.path.split(request.path)[-1]
+        #     return delete_post(get_path)
     
     else:
         return ({"error":"endpoint not found"}), 404
@@ -117,17 +117,17 @@ def edit_user(user_id):
     user_data.set(user_info)
     return jsonify(user_info), 200
 
-# @app.route('/users/<string:user_id>', methods=['DELETE'])
-def delete_user(user_id):
-    user_data = db.collection('users').document(user_id)
-    user_doc = user_data.get()
+# # @app.route('/users/<string:user_id>', methods=['DELETE'])
+# def delete_user(user_id):
+#     user_data = db.collection('users').document(user_id)
+#     user_doc = user_data.get()
 
-    if not user_doc.exists:
-        return jsonify({"error":f"User with ID {user_id} not found"}), 404
+#     if not user_doc.exists:
+#         return jsonify({"error":f"User with ID {user_id} not found"}), 404
     
-    user_data.delete()
+#     user_data.delete()
     
-    return jsonify({"message":f"User {user_id} deleted successfully"}), 204
+#     return jsonify({"message":f"User {user_id} deleted successfully"}), 204
 
 
 """
@@ -205,17 +205,17 @@ def create_post():
 
     return jsonify(record), 201
 
-# @app.route('/posts/<string:post_id>', methods=['DELETE'])
-def delete_post(post_id):
-    post_data = db.collection('posts').document(post_id)
-    post_doc = post_data.get()
+# # @app.route('/posts/<string:post_id>', methods=['DELETE'])
+# def delete_post(post_id):
+#     post_data = db.collection('posts').document(post_id)
+#     post_doc = post_data.get()
 
-    if not post_doc.exists:
-        return jsonify({"error":f"User with ID {post_id} not found"}), 404
+#     if not post_doc.exists:
+#         return jsonify({"error":f"User with ID {post_id} not found"}), 404
     
-    post_data.delete()
+#     post_data.delete()
     
-    return jsonify({"message":f"Post deleted successfully"}), 204
+#     return jsonify({"message":f"Post deleted successfully"}), 204
 
 if __name__ == '__main__':
     app.run(debug=True)
