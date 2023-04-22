@@ -26,8 +26,7 @@ def main(request):
     
     elif 'posts' in request.path:
         if request.method == 'GET':
-            get_path = os.path.split(request.path)[-1]
-            return get_post_byID(get_path)
+            return get_posts()
         elif request.method == 'POST':
             return create_post()
     
@@ -80,16 +79,8 @@ def edit_user(user_id):
         return jsonify({"error":f"User with ID {user_id} not found"}), 404
 
     user_info = user_doc.to_dict()
-    if 'name' in request.json:
-        user_info['name'] = request.json['name']
-
-    if 'email' in request.json:
-        updated_email = request.json['email']
-        users_query = db.collection('users').where('email', '==', updated_email).get()
-        for u in users_query:
-            if u.student_id != user_id:
-                return jsonify({"error":f"Email {updated_email} already exists"}), 400
-            user_info['email'] = updated_email     
+    if 'dob' in request.json:
+        user_info['dob'] = request.json['dob']
             
     if 'class' in request.json:
         user_info['class'] = request.json['class']
@@ -106,8 +97,8 @@ def edit_user(user_id):
     if 'on-campus' in request.json:
         user_info['on-campus'] = request.json['on-campus']
     
-    if 'student_id' in request.json or 'class' in request.json or 'dob' in request.json:
-        return jsonify({"message":"Sorry, you cannot alter your Student ID, DOB or Year Group! (contact admin support)"}), 403
+    if 'student_id' in request.json or 'email' in request.json or 'name' in request.json:
+        return jsonify({"message":"Sorry, you cannot alter your Student ID, Email OR Name! (contact admin support)"}), 403
 
     user_data.set(user_info)
     return jsonify(user_info), 200
@@ -116,31 +107,25 @@ def edit_user(user_id):
 """
     Posts Resource
 """
-@app.route('/posts/<int:postID>', methods=['GET'])
-def get_post_byID(post_id):
-    posts_data = db.collection('posts').document(post_id)
-    post = posts_data.get()
-
-    if post.exists:
+@app.route('/posts/', methods=['GET'])
+def get_posts():
+    posts_data = db.collection('posts')
+    posts = posts_data.stream()
+    result = []
+    for post in posts:
         post_dict = post.to_dict()
-        # post_dict['postID'] = post.postID
-        return jsonify(post_dict), 200
-    return jsonify({'message': 'Post not found'}), 404
+        result.append(post_dict)
+    if len(result) > 0:
+        return jsonify(result), 200
+    return jsonify({'error': 'post not found'}), 404
 
 @app.route('/posts', methods=['POST'])
 def create_post():
     record = json.loads(request.data)
 
     posts_data = db.collection('posts')
-    query_check = posts_data.where('postID', '==', record['postID'])
-    posts = query_check.stream()
-
-    for post in posts:
-        return jsonify({'message':f'Post with id {record["postID"]} already exists.'}), 400
-    
     post_data = posts_data.document()
     post_data.set(record)
-    record['postID'] = post_data.postID
 
     return jsonify(record), 201
 
