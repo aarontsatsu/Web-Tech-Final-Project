@@ -28,7 +28,7 @@ class _FeedState extends State<Feed>
             Tab(icon:Icon(Icons.post_add), text: "Create Post"),
             Tab(icon:Icon(Icons.person), text: "Profile")
             ]
-          )
+          ),
         ),
       backgroundColor: Colors.white,
 
