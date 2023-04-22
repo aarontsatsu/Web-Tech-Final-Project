@@ -3,6 +3,7 @@ import 'package:my_ashx_app/screens/signup.dart';
 import 'package:my_ashx_app/screens/login.dart';
 import 'package:my_ashx_app/screens/posts.dart';
 import 'package:my_ashx_app/screens/edit_profile.dart';
+import 'package:my_ashx_app/screens/feed.dart';
 
 void main() {
   runApp(MyApp());
@@ -23,12 +24,13 @@ class MyApp extends StatelessWidget {
       home: Material(
         child: StudentForm(),
       ),
-      initialRoute: '/login', // Initial route
+      initialRoute: '/feed', // Initial route
       routes: {
         '/login': (context) => LoginForm(),
         '/post': (context) => PostForm(),
         '/signup': (context) => StudentForm(),
-        '/editProfile' : (context) => EditProfile()
+        '/editProfile' : (context) => EditProfile(),
+        '/feed' : (context) => Feed()
       },
     );
   }
