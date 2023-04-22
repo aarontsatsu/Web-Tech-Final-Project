@@ -1,3 +1,5 @@
 flask
 google-cloud-firestore
 functions-framework
+firebase_admin
+# flask-cors
