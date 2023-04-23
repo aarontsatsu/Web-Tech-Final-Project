@@ -1,6 +1,7 @@
-import json, os.path, functions_framework
+import json
 from flask import Flask, request, jsonify
 from google.cloud import firestore
+from flask_cors import CORS
 from firebase_admin import credentials, firestore, initialize_app
 
 # Initialize Firestore Database
@@ -11,36 +12,14 @@ default_app = initialize_app(credential)
 db = firestore.client()
 
 app = Flask(__name__)
-
-@functions_framework.http
-def main(request):
-    if 'users' in request.path:
-        if request.method == 'GET':
-            get_path = os.path.split(request.path)[-1]
-            return get_user_byID(get_path)
-        elif request.method == 'POST':
-            return create_user()
-        elif request.method == 'PATCH':
-            get_path = os.path.split(request.path)[-1]
-            return edit_user(get_path)
-    
-    elif 'posts' in request.path:
-        if request.method == 'GET':
-            return get_posts()
-        elif request.method == 'POST':
-            return create_post()
-    
-    else:
-        return ({"error":"endpoint not found"}), 404
-    
-
+cors = CORS(app)
 
 """
     Users Resource
 """
-@app.route('/users/<int:student_id>', methods=['GET'])
+@app.route('/users/<int:user_id>', methods=['GET'])
 def get_user_byID(user_id):
-    users_data = db.collection('users').document(user_id)
+    users_data = db.collection('users').document(str(user_id))
     user = users_data.get()
 
     if user.exists:
@@ -71,9 +50,9 @@ def create_user():
 
     return jsonify(record), 201
 
-@app.route('/users/<int:student_id>', methods=['PATCH'])
+@app.route('/users/<int:user_id>', methods=['PATCH'])
 def edit_user(user_id):
-    user_data = db.collection('users').document(user_id)
+    user_data = db.collection('users').document(str(user_id))
     user_doc = user_data.get()
     if not user_doc.exists:
         return jsonify({"error":f"User with ID {user_id} not found"}), 404
@@ -107,7 +86,7 @@ def edit_user(user_id):
 """
     Posts Resource
 """
-@app.route('/posts/', methods=['GET'])
+@app.route('/posts', methods=['GET'])
 def get_posts():
     posts_data = db.collection('posts')
     posts = posts_data.stream()
@@ -129,5 +108,5 @@ def create_post():
 
     return jsonify(record), 201
 
-if __name__ == '__main__':
-    app.run(debug=True)
+# if __name__ == '__main__':
+#     app.run(debug=True)
