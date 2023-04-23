@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       home: Material(
         child: StudentForm(),
       ),
-      initialRoute: '/profile', // Initial route
+      initialRoute: '/post', // Initial route
       routes: {
         '/login': (context) => LoginForm(),
         '/post': (context) => PostForm(),

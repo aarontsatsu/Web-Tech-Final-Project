@@ -3,54 +3,106 @@ import 'dart:async';
 import 'dart:convert';
 
 // URIs to process requests
-String _userURI = "http://192.168.106.84:8080/users";
-String _postURI = "http://192.168.106.84:8080/posts";
+String _userURI = "http://127.0.0.1:8080/users";
+String _postURI = "http://127.0.0.1:8080/posts";
 
 
-Future<void> createUser(body) {
-  return http.post(
-    Uri.parse(_userURI),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: jsonEncode(body),
+Future<int> createUser(body) async{
+
+  final uri = Uri.parse(_userURI);
+  final headers = {'Content-Type': 'application/json; charset=UTF-8'};
+  String jsonBody = json.encode(body);
+  final encoding = Encoding.getByName('utf-8');
+
+  http.Response response = await http.post(
+    uri,
+    headers: headers,
+    body: jsonBody,
+    encoding: encoding
   );
+
+  if (response.statusCode == 200){
+    return response.statusCode;
+  }else{
+    throw Exception('Failed to create user');
+  }
 }
 
-Future<void> editUser(body) {
-  return http.patch(
-    Uri.parse(_userURI),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: jsonEncode(body),
+Future<int> editUser(body) async{
+
+  final uri = Uri.parse(_userURI);
+  final headers = {'Content-Type': 'application/json; charset=UTF-8'};
+  String jsonBody = json.encode(body);
+  final encoding = Encoding.getByName('utf-8');
+
+  http.Response response = await http.patch(
+    uri,
+    headers: headers,
+    body: jsonBody,
+    encoding: encoding
   );
+
+  if (response.statusCode == 200){
+    return response.statusCode;
+  }else{
+    throw Exception('Failed to edit user');
+  }
 }
 
-Future<void> getUser(body) {
-  return http.get(
-    Uri.parse(_userURI),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    }
+Future<List<dynamic>> getUser(body) async{
+
+  final uri = Uri.parse(_userURI);
+  final headers = {'Content-Type': 'application/json; charset=UTF-8'};
+
+  http.Response response = await http.get(
+    uri,
+    headers: headers
   );
+
+  if (response.statusCode == 200){
+    return jsonDecode(response.body);
+  }else{
+    throw Exception('Failed to get user');
+  }
 }
 
-Future<void> createPost(body) {
-  return http.post(
-    Uri.parse(_postURI),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: jsonEncode(body),
+Future<int> createPost(body) async{
+
+  final uri = Uri.parse(_postURI);
+  final headers = {
+      "Access-Control-Allow-Origin": "*",
+      'Content-Type': 'application/json',
+      'Accept': '*/*'
+    };
+  String jsonBody = json.encode(body);
+  final encoding = Encoding.getByName('utf-8');
+
+  http.Response response = await http.post(
+    uri,
+    headers: headers,
+    body: jsonBody,
+    encoding: encoding
   );
+  if (response.statusCode == 201){
+    return response.statusCode;
+  }else{
+    throw Exception('Failed to create post');
+  }
 }
 
-Future<void> getPosts(body) {
-  return http.get(
-    Uri.parse(_postURI),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    }
+Future<List<dynamic>> getPosts(body) async{
+
+  final uri = Uri.parse(_postURI);
+  final headers = {'Content-Type': 'application/json; charset=UTF-8'};
+
+  http.Response response = await http.get(
+    uri,
+    headers: headers
   );
+
+  if (response.statusCode == 200){
+    return jsonDecode(response.body);
+  }else{
+    throw Exception('Failed to get posts');
+  }
 }

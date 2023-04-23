@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_ashx_app/http_request.dart';
 
 class PostForm extends StatefulWidget {
   const PostForm({Key? key}) : super(key : key);
@@ -12,6 +13,7 @@ class _PostFormState extends State<PostForm>
   String post = "";
   String email = "";
 
+  
   @override
   Widget build(BuildContext context){
     return Scaffold(
@@ -59,7 +61,6 @@ class _PostFormState extends State<PostForm>
                     onChanged: (value){
                       email = value;
                     },
-                    obscureText: true,
                     style: TextStyle(fontSize: 15, color: Colors.black),
                     decoration: const InputDecoration(
                       enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black, width: 2)),
@@ -73,8 +74,17 @@ class _PostFormState extends State<PostForm>
                   const SizedBox(height: 20),
                   // button
                   ElevatedButton(
-                    onPressed: (){
-
+                    onPressed: () async{
+                      var body = {
+                        "post": post,
+                        "email": email
+                      };
+                      try {
+                        await createPost(body);
+                        showPostCreationModal();
+                      } catch (e) {
+                        print("Could not process request");
+                      }
                     },
                     style: ButtonStyle(
                       padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 100, vertical: 20)),
@@ -84,7 +94,6 @@ class _PostFormState extends State<PostForm>
                     child: const Text("Create Post",
                     style: TextStyle(color: Colors.black, letterSpacing: 2, fontSize: 15,))
                   )
-                  
                 ]
               )
             ),
@@ -93,4 +102,24 @@ class _PostFormState extends State<PostForm>
       ),
     );
   }
+
+  void showPostCreationModal() {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text("Post Created"),
+        content: Text("Your post has been created successfully."),
+        actions: [
+          TextButton(
+            child: Text("OK"),
+            onPressed: () {
+              Navigator.pushNamed(context, '/feed');
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_ashx_app/http_request.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({Key? key}) : super(key : key);
@@ -71,8 +72,9 @@ class _LoginFormState extends State<LoginForm>
                   const SizedBox(height: 20),
                   // button
                   ElevatedButton(
-                    onPressed: (){
-                      Navigator.pushNamed(context, '/post');
+                    onPressed: () async {
+                      Future<List<dynamic>> user = getUser(email);
+                      // Navigator.pushNamed(context, '/post');
                     },
                     style: ButtonStyle(
                       padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 100, vertical: 20)),
