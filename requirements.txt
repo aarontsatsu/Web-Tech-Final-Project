@@ -1,5 +1,5 @@
 flask
 google-cloud-firestore
-functions-framework
+waitress
 firebase_admin
-# flask-cors
+flask-cors
