@@ -21,7 +21,7 @@ Future<int> createUser(body) async{
     encoding: encoding
   );
 
-  if (response.statusCode == 200){
+  if (response.statusCode == 201){
     return response.statusCode;
   }else{
     throw Exception('Failed to create user');
