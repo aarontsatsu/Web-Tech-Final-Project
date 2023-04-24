@@ -35,8 +35,9 @@ Future<int> editUser(body) async{
   String jsonBody = json.encode(body);
   final encoding = Encoding.getByName('utf-8');
 
+  print(body);
   http.Response response = await http.patch(
-    uri,
+    Uri.parse("$uri/$jsonBody['student_id']"),
     headers: headers,
     body: jsonBody,
     encoding: encoding
@@ -49,18 +50,18 @@ Future<int> editUser(body) async{
   }
 }
 
-Future<List<dynamic>> getUser(body) async{
+getUser(user_id) async{
 
   final uri = Uri.parse(_userURI);
   final headers = {'Content-Type': 'application/json; charset=UTF-8'};
 
   http.Response response = await http.get(
-    uri,
+    Uri.parse("$uri/$user_id"),
     headers: headers
   );
 
   if (response.statusCode == 200){
-    return jsonDecode(response.body);
+    return response.body;
   }else{
     throw Exception('Failed to get user');
   }
@@ -77,6 +78,7 @@ Future<int> createPost(body) async{
   String jsonBody = json.encode(body);
   final encoding = Encoding.getByName('utf-8');
 
+
   http.Response response = await http.post(
     uri,
     headers: headers,
@@ -90,7 +92,7 @@ Future<int> createPost(body) async{
   }
 }
 
-Future<List<dynamic>> getPosts(body) async{
+Future<List<dynamic>> getPosts() async{
 
   final uri = Uri.parse(_postURI);
   final headers = {'Content-Type': 'application/json; charset=UTF-8'};
