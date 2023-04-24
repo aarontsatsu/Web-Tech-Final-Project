@@ -74,7 +74,7 @@ def edit_user(user_id):
         user_info['major'] = request.json['major']
     
     if 'on-campus' in request.json:
-        user_info['on-campus'] = request.json['on-campus']
+        user_info['residence'] = request.json['residence']
     
     if 'user_id' in request.json or 'email' in request.json or 'name' in request.json:
         return jsonify({"message":"Sorry, you cannot alter your Student ID, Email OR Name! (contact admin support)"}), 403
