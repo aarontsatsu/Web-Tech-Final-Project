@@ -17,11 +17,6 @@ class _FeedState extends State<Feed>
       appBar: AppBar(
         title: Text("AshX Social Connect: My Feed"),
         backgroundColor: Color.fromARGB(255, 99, 16, 10),
-        // actions: <Widget>[
-        //   IconButton(
-        //   icon: Icon(Icons.search), 
-        //   onPressed: (){}),
-        // ],
         bottom: TabBar(
           tabs: <Widget>[
             Tab(icon:Icon(Icons.home), text: "Home"),
@@ -36,7 +31,6 @@ class _FeedState extends State<Feed>
         itemCount: 10,
         itemBuilder: (context, index) => CardItem(),
       ),
-
     ),
   );
 }
