@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+// import 'package:intl/intl.dart';
+import 'package:my_ashx_app/http_request.dart';
 
 class StudentForm extends StatefulWidget {
   const StudentForm({Key? key}) : super(key : key);
@@ -10,22 +11,24 @@ class StudentForm extends StatefulWidget {
 
 class _StudentFormState extends State<StudentForm> 
 {
-  String studentId = "";
-  String name = "";
-  String email = "";
-  DateTime dob = DateTime.now();
-  int yearGroup = 0;
-  String major = "";
-  bool hasResidence = false;
-  String bestFood = "";
-  String bestMovie = "";
+  late String student_id;
+  late String name;
+  late String email;
+  late String dob;
+  late int yearGroup;
+  late String major;
+  late String residence = residences[0];
+  late String best_food;
+  late String best_movie;
+
+  final List<String> residences = ['On-Campus', 'Off-Campus'];
 
 
   @override
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
-        title: Text("AshX Social Connect"),
+        title: Text("AshX Social Connect: Sign Up"),
         backgroundColor: Color.fromARGB(255, 99, 16, 10),
       ),
       backgroundColor: Colors.white,
@@ -48,7 +51,7 @@ class _StudentFormState extends State<StudentForm>
                   // studentId text field
                   TextField(
                     onChanged: (value){
-                      studentId = value;
+                      student_id = value;
                     },
                     style: TextStyle(fontSize: 15, color: Colors.black),
                     decoration: const InputDecoration(
@@ -96,7 +99,7 @@ class _StudentFormState extends State<StudentForm>
                   // dob text field
                   TextField(
                     onChanged: (value){
-                      dob = DateFormat('dd-MM-yyyy').parse(value);
+                      dob = value;
                     },
                     style: TextStyle(fontSize: 15, color: Colors.black),
                     decoration: const InputDecoration(
@@ -141,23 +144,34 @@ class _StudentFormState extends State<StudentForm>
                   ),
 
                   const SizedBox(height: 10),
-                  // residence text field
-                  CheckboxListTile(
-                    title: const Text('On-Campus Residence (Uncheck if otherwise)'),
-                    value: hasResidence,
-                    onChanged: (bool? value) {
+                  // residence drop down field
+                  DropdownButtonFormField<String>(
+                    onChanged: (String? newValue) {
                       setState(() {
-                        hasResidence = value ?? false;
+                        residence = newValue!;
                       });
                     },
-                    controlAffinity: ListTileControlAffinity.leading,
+                    items: residences.map((String value) {
+                      return DropdownMenuItem(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    decoration: const InputDecoration(
+                      enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black, width: 2)),
+                      focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black, width: 2)),
+                      hintText: "Student Residence",
+                      hintStyle: TextStyle(color: Colors.grey),
+                      icon: Icon(Icons.home, color:Colors.black,)
+                    ),
                   ),
 
+                  
                   const SizedBox(height: 10),
                   // food text field
                   TextField(
                     onChanged: (value){
-                      bestFood = value;
+                      best_food = value;
                     },
                     style: TextStyle(fontSize: 15, color: Colors.black),
                     decoration: const InputDecoration(
@@ -173,7 +187,7 @@ class _StudentFormState extends State<StudentForm>
                   // movie text field
                   TextField(
                     onChanged: (value){
-                      bestMovie = value;
+                      best_movie = value;
                     },
                     style: TextStyle(fontSize: 15, color: Colors.black),
                     decoration: const InputDecoration(
@@ -188,8 +202,24 @@ class _StudentFormState extends State<StudentForm>
                   const SizedBox(height: 20),
                   // button
                   ElevatedButton(
-                    onPressed: (){
-                      Navigator.pushNamed(context, '/login');
+                    onPressed: () async{
+                      var body = {
+                        "student_id":student_id,
+                        "name":name,
+                        "email":email,
+                        "dob":dob,
+                        "class":yearGroup,
+                        "major":major,
+                        "residence":residence,
+                        "best_food":best_food,
+                        "best_movie":best_movie
+                      };
+                      try {
+                        await createUser(body);
+                        showPostCreationModal();
+                      } catch (e) {
+                        print("Could not process request");
+                      }
                     },
                     style: ButtonStyle(
                       padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 100, vertical: 20)),
@@ -209,4 +239,23 @@ class _StudentFormState extends State<StudentForm>
       ),
     );
   }
+  void showPostCreationModal() {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text("Sign Up"),
+        content: Text("You have signed up successfully."),
+        actions: [
+          TextButton(
+            child: Text("OK"),
+            onPressed: () {
+              Navigator.pushNamed(context, '/login');
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
 }
