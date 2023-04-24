@@ -98,6 +98,8 @@ def get_posts():
         return jsonify(result), 200
     return jsonify({'error': 'post not found'}), 404
 
+
+
 @app.route('/posts', methods=['POST'])
 def create_post():
     record = json.loads(request.data)
@@ -106,7 +108,29 @@ def create_post():
     post_data = posts_data.document()
     post_data.set(record)
 
+    sendEmail()
     return jsonify(record), 201
 
-# if __name__ == '__main__':
-#     app.run(debug=True)
+def getEmails():
+    users_data = db.collection('users')
+    users = users_data.stream()
+    result = []
+    for user in users:
+        user_dict = user.to_dict()
+        result.append(user_dict["email"])
+    return result
+
+def sendEmail():
+    email_list = getEmails()
+
+    for email in email_list:
+        doc_ref = db.collection('mail').document()
+        
+        data = {
+            "to": email,
+            "message": {
+                "subject": "New Post on AshX Connect",
+                "text": "Hello, a new post is up on AshX Connect. Check it out!"
+            }
+        }
+        doc_ref.set(data)
