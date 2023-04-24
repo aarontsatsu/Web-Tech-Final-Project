@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:my_ashx_app/screens/edit_profile.dart';
+import 'package:my_ashx_app/user.dart';
+// import 'package:my_ashx_app/screens/login.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key : key);
@@ -9,9 +12,10 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> 
 {
-
   @override
   Widget build(BuildContext context){
+    final data = ModalRoute.of(context)!.settings.arguments as User;
+
     return Scaffold(
       appBar: AppBar(
         title: Text("AshX Social Connect: My Profile"),
@@ -54,15 +58,15 @@ class _ProfileState extends State<Profile>
                 ),
               ),
               SizedBox(height: 30),
-              buildTextField("Student ID", "49622024"),
-              buildTextField("Name", "Aaron"),
-              buildTextField("Email", "aarontmkl@gmail.com"),
-              buildTextField("DOB", "05/07/2001"),
-              buildTextField("Year Group", "2024"),
-              buildTextField("Major", "Computer Science"),
-              buildTextField("Residence", "On-Campus"),
-              buildTextField("Best Food", "Jollof"),
-              buildTextField("Best Movie", "American Gangstar"),
+              buildTextField("Student ID", data.user_id.toString()),
+              buildTextField("Name", data.name),
+              buildTextField("Email", data.email),
+              buildTextField("DOB", data.dob),
+              buildTextField("Year Group", data.yearGroup.toString()),
+              buildTextField("Major", data.major),
+              buildTextField("Residence", data.residence),
+              buildTextField("Best Food", data.best_food),
+              buildTextField("Best Movie", data.best_movie),
               SizedBox(height: 30),
 
       
@@ -79,7 +83,15 @@ class _ProfileState extends State<Profile>
                         right: 50,
                         child: IconButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, '/editProfile');
+                            Navigator.push(
+                            context,
+                              MaterialPageRoute(
+                                builder: (context) => const EditProfile(),
+                                settings: RouteSettings(
+                                arguments: data,
+                                ),
+                              )
+                            );
                           },
                           icon: Icon(Icons.edit),
                           color: Color.fromARGB(255, 99, 16, 10),
