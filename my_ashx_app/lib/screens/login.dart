@@ -1,5 +1,8 @@
+import 'dart:convert';
+import 'package:my_ashx_app/user.dart';
 import 'package:flutter/material.dart';
 import 'package:my_ashx_app/http_request.dart';
+import 'package:my_ashx_app/screens/profile.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({Key? key}) : super(key : key);
@@ -10,8 +13,8 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> 
 {
-  String email = "";
-  String password = "";
+  late int student_id;
+  late String password;
 
   @override
   Widget build(BuildContext context){
@@ -36,16 +39,16 @@ class _LoginFormState extends State<LoginForm>
                   ),
 
                   const SizedBox(height: 10),
-                  // email text field
+                  // student id text field
                   TextField(
                     onChanged: (value){
-                      email = value;
+                      student_id = int.parse(value);
                     },
                     style: TextStyle(fontSize: 15, color: Colors.black),
                     decoration: const InputDecoration(
                       enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black, width: 2)),
                       focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black, width: 2)),
-                      hintText: "Email",
+                      hintText: "Student ID",
                       hintStyle: TextStyle(color: Colors.grey),
                       icon: Icon(Icons.email, color:Colors.black,)
                     )
@@ -72,9 +75,8 @@ class _LoginFormState extends State<LoginForm>
                   const SizedBox(height: 20),
                   // button
                   ElevatedButton(
-                    onPressed: () async {
-                      Future<List<dynamic>> user = getUser(email);
-                      // Navigator.pushNamed(context, '/post');
+                    onPressed: ()  {
+                      showPostCreationModal();
                     },
                     style: ButtonStyle(
                       padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 100, vertical: 20)),
@@ -93,4 +95,47 @@ class _LoginFormState extends State<LoginForm>
       ),
     );
   }
+  void showPostCreationModal() {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text("Log In"),
+        content: Text("You have logged in successfully."),
+        actions: [
+          TextButton(
+            child: Text("OK"),
+            onPressed: () async{
+              String actualData = await getUser(student_id);
+              var userData = jsonDecode(actualData);
+              User data =  User(
+                user_id: userData['student_id'],
+                name: userData['name'],
+                email: userData['email'],
+                dob: userData['dob'],
+                yearGroup: userData['class'],
+                major: userData['major'],
+                residence: userData['residence'],
+                best_food: userData['best_food'],
+                best_movie: userData['best_movie']
+              );
+
+              Navigator.push(
+              context,
+                MaterialPageRoute(
+                  builder: (context) => const Profile(),
+                  settings: RouteSettings(
+                  arguments: data,
+                  ),
+                )
+              );
+            },
+          ),
+        ],
+      );
+    },
+  );
 }
+}
+
+
