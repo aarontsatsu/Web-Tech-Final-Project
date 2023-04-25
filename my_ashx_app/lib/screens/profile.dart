@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_ashx_app/screens/edit_profile.dart';
 import 'package:my_ashx_app/user.dart';
-// import 'package:my_ashx_app/screens/login.dart';
+import 'package:my_ashx_app/screens/feed.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key : key);
@@ -21,6 +21,45 @@ class _ProfileState extends State<Profile>
         title: Text("AshX Social Connect: My Profile"),
         backgroundColor: Color.fromARGB(255, 99, 16, 10),
       ),
+      endDrawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Color.fromARGB(255, 99, 16, 10),
+              ),
+              child: Text('AshX Pages'),
+              ),
+
+              ListTile(
+              leading: Icon(
+                Icons.home,
+              ),
+              title: const Text('My Feed'),
+              onTap: () async{
+                Navigator.push(context,
+                MaterialPageRoute(
+                  builder: (context) => const Feed(),
+                  settings: RouteSettings(
+                  arguments: data.user_id,
+                  ),)
+                );
+              },
+              ),
+
+              ListTile(
+              leading: Icon(
+                Icons.logout,
+              ),
+              title: const Text('Logout'),
+              onTap: () {
+                Navigator.pushNamed(context, '/login');
+              },
+              ),
+            ]
+          )
+        ),
       backgroundColor: Colors.white,
       body: Container(
         padding: EdgeInsets.only(left: 15, top: 20, right: 15),

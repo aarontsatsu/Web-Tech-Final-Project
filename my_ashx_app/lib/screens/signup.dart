@@ -227,7 +227,7 @@ class _StudentFormState extends State<StudentForm>
                       foregroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 99, 16, 10)),
                     ),
                     child: const Text("Sign Up",
-                    style: TextStyle(color: Colors.black, letterSpacing: 2, fontSize: 15,))
+                    style: TextStyle(color: Colors.white, letterSpacing: 2, fontSize: 15,))
                   )
                   
                 ]

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_ashx_app/http_request.dart';
+import 'package:my_ashx_app/screens/feed.dart';
 
 class PostForm extends StatefulWidget {
   const PostForm({Key? key}) : super(key : key);
@@ -13,14 +14,39 @@ class _PostFormState extends State<PostForm>
   String post = "";
   String email = "";
 
-  
+  late int uID;
   @override
   Widget build(BuildContext context){
+    final user_id = ModalRoute.of(context)!.settings.arguments as int;
+    uID = user_id;
     return Scaffold(
       appBar: AppBar(
         title: Text("AshX Social Connect"),
         backgroundColor: Color.fromARGB(255, 99, 16, 10),
       ),
+      endDrawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Color.fromARGB(255, 99, 16, 10),
+              ),
+              child: Text('AshX Pages'),
+              ),
+
+              ListTile(
+              leading: Icon(
+                Icons.home,
+              ),
+              title: const Text('Feed'),
+              onTap: () {
+                Navigator.pushNamed(context, '/feed');
+              },
+              ),
+            ]
+          )
+        ),
       backgroundColor: Colors.white,
       body: Stack(
         children: [
@@ -114,7 +140,15 @@ class _PostFormState extends State<PostForm>
           TextButton(
             child: Text("OK"),
             onPressed: () {
-              Navigator.pushNamed(context, '/feed');
+              // Navigator.pushNamed(context, '/feed');
+              Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const Feed(),
+              settings: RouteSettings(
+              arguments: uID,
+              ),)
+            );
             },
           ),
         ],
