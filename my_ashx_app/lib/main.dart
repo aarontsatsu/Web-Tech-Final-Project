@@ -26,13 +26,14 @@ class MyApp extends StatelessWidget {
         child: StudentForm(),
       ),
       initialRoute: '/login', // Initial route
+      //pages routes for app
       routes: {
         '/login': (context) => LoginForm(),
         '/post': (context) => PostForm(),
         '/signup': (context) => StudentForm(),
         '/editProfile' : (context) => EditProfile(),
         '/feed' : (context) => Feed(),
-         '/profile' : (context) => Profile()
+        '/profile' : (context) => Profile()
       },
     );
   }
