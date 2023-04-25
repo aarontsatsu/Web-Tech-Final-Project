@@ -1,4 +1,4 @@
-import json
+import json, datetime
 from flask import Flask, request, jsonify
 from google.cloud import firestore
 from flask_cors import CORS
@@ -104,8 +104,10 @@ def get_posts():
 def create_post():
     record = json.loads(request.data)
 
+    time = datetime.datetime.now()
+
     posts_data = db.collection('posts')
-    post_data = posts_data.document()
+    post_data = posts_data.document(str(time))
     post_data.set(record)
 
     sendEmail()
