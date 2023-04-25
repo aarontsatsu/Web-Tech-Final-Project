@@ -28,16 +28,15 @@ Future<int> createUser(body) async{
   }
 }
 
-Future<int> editUser(body) async{
+Future<int> editUser(body, user_id) async{
 
   final uri = Uri.parse(_userURI);
   final headers = {'Content-Type': 'application/json; charset=UTF-8'};
   String jsonBody = json.encode(body);
   final encoding = Encoding.getByName('utf-8');
 
-  print(body);
   http.Response response = await http.patch(
-    Uri.parse("$uri/$jsonBody['student_id']"),
+    Uri.parse("$uri/$user_id"),
     headers: headers,
     body: jsonBody,
     encoding: encoding
@@ -60,6 +59,7 @@ getUser(user_id) async{
     headers: headers
   );
 
+  // print(response.body);
   if (response.statusCode == 200){
     return response.body;
   }else{
