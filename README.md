@@ -1,5 +1,9 @@
 # Web-Tech-Final-Project
 AshX Connect is a social platform designed for Ashesi students to communicate and exchange opinions through posts. The platform is built on a client-server architecture, with a Flutter-based user interface, a Flask-based backend, and Google Cloud Firestore as the database.
-The Flask Framework, in conjunction with Python, was used to develop an Application Programming Interface (API) that allows requests to be made to the server. The API includes multiple endpoints, such as user creation, post creation, push notifications, and user information update and retrieval, that enable the app's primary functions. 
-The backend system relies on Google Cloud Firestore, which follows a NoSQL paradigm to store data. In addition, the email trigger function of the database is utilized to send email notifications to all users whenever a new post is created. 
-To display users' posts on the feed functionality, the system employs Flutter Dart's stream property, which fetches data (posts) from the API in real-time for display.
+With the app you can:
+- Create a user
+- Edit user details
+- Retrieve user info
+- Create a Post
+- View all posts on the feed
+- Send push email notifications to users when posts are created
