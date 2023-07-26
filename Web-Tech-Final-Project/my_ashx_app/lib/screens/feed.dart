@@ -34,7 +34,7 @@ class _FeedState extends State<Feed>
   }
 
   Future<void> getPosts() async {
-    String postURI = "https://ashesi-social-connect.uc.r.appspot.com/posts";
+    String postURI = "http://127.0.0.1:8080/posts";
 
     final response = await http.get(Uri.parse(postURI));
 

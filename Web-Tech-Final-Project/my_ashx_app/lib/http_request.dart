@@ -3,8 +3,8 @@ import 'dart:async';
 import 'dart:convert';
 
 // URIs to process requests
-String _userURI = "https://ashesi-social-connect.uc.r.appspot.com/users";
-String _postURI = "https://ashesi-social-connect.uc.r.appspot.com/posts";
+String _userURI = "http://127.0.0.1:8080/users";
+String _postURI = "http://127.0.0.1:8080/posts";
 
 
 Future<int> createUser(body) async{

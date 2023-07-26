@@ -3,3 +3,4 @@ google-cloud-firestore
 waitress
 firebase_admin
 flask-cors
+operators
